@@ -158,3 +158,16 @@ tree:
 	else \
 		find . -type f -name "*.json" -o -name "*.html" -o -name "*.py" -o -name "Makefile" | sort; \
 	fi
+
+# Run gemini CLI with prompt file
+.PHONY: prompt
+prompt:
+	@echo "🚀 Running Gemini CLI with contents.prompt..."
+	make -f gemini-cli-prompt.mk FILE="contents.prompt"
+	@echo "✅ Gemini CLI execution completed"
+
+# Test Gemini API connectivity and quota
+.PHONY: test-api
+test-api:
+	@echo "🔍 Testing Gemini API status..."
+	make -f gemini-cli-prompt.mk test-api
