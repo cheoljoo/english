@@ -19,12 +19,15 @@ all:
 	fi
 	@echo "Executing Gemini CLI with FILE=$(FILE)..."
 	@echo "FILE variable content: '$(FILE)'"
+	@echo "Current date: $$(date '+%Y-%m-%d (%A)')"
 	@if [ -n "$(FILE)" ]; then \
 		echo "FILE is set, reading from file: $(FILE)"; \
 		if [ -f "$(FILE)" ]; then \
 			echo "File exists, executing Docker container..."; \
-			echo "Command: docker run -it --rm -v ./:/usr/src/app -e GEMINI_API_KEY=*** gemini-app gemini -y -p \"\$$(cat $(FILE))\""; \
-			if docker run -it --rm -v ./:/usr/src/app -e GEMINI_API_KEY=AIzaSyB647F_VzNA0tT8kacPMLTbL62EWEChmyw gemini-app gemini -y -p "$$(cat $(FILE))"; then \
+			echo "Command: docker run -it --rm -v ./:/usr/src/app -e GEMINI_API_KEY=*** gemini-app gemini -y -p \"...\""; \
+			CURRENT_DATE="$$(date '+%Y-%m-%d (%A)')"; \
+			PROMPT_WITH_DATE="Current date: $$CURRENT_DATE\n\n$$(cat $(FILE))"; \
+			if echo "$$PROMPT_WITH_DATE" | docker run -i --rm -v ./:/usr/src/app -e GEMINI_API_KEY=AIzaSyB647F_VzNA0tT8kacPMLTbL62EWEChmyw gemini-app gemini -y -p -; then \
 				echo "✅ Gemini CLI executed successfully"; \
 			else \
 				echo "❌ Gemini CLI failed with exit code: $$?"; \
@@ -40,7 +43,9 @@ all:
 	else \
 		echo "FILE is not set, using PROMPT variable..."; \
 		echo "Command: docker run -it --rm -v ./:/usr/src/app -e GEMINI_API_KEY=*** gemini-app gemini -y"; \
-		if docker run -it --rm -v ./:/usr/src/app -e GEMINI_API_KEY=AIzaSyB647F_VzNA0tT8kacPMLTbL62EWEChmyw gemini-app gemini -y $(if $(PROMPT),-p "$(PROMPT)"); then \
+		CURRENT_DATE="$$(date '+%Y-%m-%d (%A)')"; \
+		PROMPT_WITH_DATE="Current date: $$CURRENT_DATE\n\n$(PROMPT)"; \
+		if echo "$$PROMPT_WITH_DATE" | docker run -i --rm -v ./:/usr/src/app -e GEMINI_API_KEY=AIzaSyB647F_VzNA0tT8kacPMLTbL62EWEChmyw gemini-app gemini -y -p -; then \
 			echo "✅ Gemini CLI executed successfully"; \
 		else \
 			echo "❌ Gemini CLI failed with exit code: $$?"; \
