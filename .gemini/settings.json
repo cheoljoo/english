@@ -1,0 +1,10 @@
+{
+    "theme": "Default",
+        "selectedAuthType": "gemini-api-key",
+        "mcpServers": {
+            "playwright-stealth": {
+                "command": "npx",
+                "args": ["-y", "@pvinis/playwright-stealth-mcp-server"]
+            }
+        }  
+}
