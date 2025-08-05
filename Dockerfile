@@ -11,6 +11,10 @@ WORKDIR /usr/src/app
 RUN npm install -g @google/gemini-cli
 RUN npm install youtube-data-mcp-server
 
+# Playwright 설치 및 브라우저 설치
+RUN npm install -g @playwright/test
+RUN npx playwright install --with-deps
+
 # sudo 패키지를 설치합니다.
 RUN apt-get update && apt-get install -y sudo python3 python3-pip python3-venv vim git
 
