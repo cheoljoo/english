@@ -128,5 +128,96 @@
       "What technical challenges does Apple face in competing with established AI companies?",
       "How could Apple's integration across devices enhance its AI chatbot experience?"
     ]
+  },
+  {
+    "date": "2025-08-06",
+    "topic": "Clay confirms it closed $100M round at $3.1B valuation",
+    "URL": "https://techcrunch.com/2025/08/05/clay-confirms-it-closed-100m-round-at-3-1b-valuation/",
+    "source": "Sales automation startup Clay has raised a $100 million Series C at a $3.1 billion valuation in a round led by CapitalG. The financing follows a $1.25 billion Series B round from six months ago and a $1.5 billion Sequoia-led tender offer announced a couple of months ago. The latest deal brings Clay's total funding to $204 million. The 8-year-old startup helps salespeople and marketers with AI-powered tools and claims customers like OpenAI, Anthropic, Canva, Intercom, and Rippling. Clay co-founder and CEO Kareem Amin told The New York Times that the company expects to end the year with $100 million in revenue, which would triple its revenue from last year.",
+    "summary": "Sales automation startup Clay secured $100 million in Series C funding at a $3.1 billion valuation, led by CapitalG. This follows previous rounds totaling $204 million in funding. The company provides AI-powered sales and marketing tools to clients including OpenAI, Anthropic, and Canva. Clay expects to reach $100 million in annual revenue by year-end, representing a threefold increase from the previous year.",
+    "questions": [
+      "What AI-powered tools does Clay provide to sales and marketing teams?",
+      "How has Clay's valuation grown since its previous funding rounds?",
+      "Which major tech companies are currently using Clay's services?",
+      "What factors contributed to Clay's rapid revenue growth trajectory?"
+    ]
+  },
+  {
+    "date": "2025-08-06",
+    "topic": "Google Cloud's data agents promise to end the 80% toil problem plaguing enterprise data teams",
+    "URL": "https://venturebeat.com/data-infrastructure/google-clouds-data-agents-promise-to-end-the-80-toil-problem-plaguing-enterprise-data-teams/",
+    "source": "Google Cloud is launching a series of AI agents to automate data preparation tasks that typically consume 80% of data teams' time. The Data Engineering Agent in BigQuery automates complex pipeline creation through natural language commands. A Data Science Agent transforms notebooks into intelligent workspaces for autonomous machine learning workflows. The enhanced Conversational Analytics Agent includes a Code Interpreter for advanced Python analytics. Google's approach differs by building these services as APIs that partners can embed into their own applications, creating an extensible platform rather than closed first-party tools.",
+    "summary": "Google Cloud introduced AI agents designed to eliminate the 80% of time data teams spend on tedious data preparation tasks. The new agents include a Data Engineering Agent for BigQuery that creates pipelines through natural language, a Data Science Agent for autonomous ML workflows, and an enhanced Analytics Agent with Python capabilities. Unlike competitors, Google offers these as APIs for partner integration, enabling broader ecosystem adoption.",
+    "questions": [
+      "How do Google's data agents reduce the manual work burden for data teams?",
+      "What makes Google's API-first approach different from competitor strategies?",
+      "Which specific data engineering tasks can be automated through natural language?",
+      "How might these agents change the role of data engineers in organizations?"
+    ]
+  },
+  {
+    "date": "2025-08-06",
+    "topic": "In trial, people lost twice as much weight by ditching ultraprocessed food",
+    "URL": "https://arstechnica.com/health/2025/08/in-trial-people-lost-twice-as-much-weight-by-ditching-ultraprocessed-food/",
+    "source": "In a small randomized controlled trial published in Nature Medicine, people lost twice as much weight when their diet was limited to minimally processed food compared to ultraprocessed versions that were otherwise nutritionally matched. Participants lost about 2% of their weight on the minimally processed food (MPF) diet versus 1% on the ultraprocessed food (UPF) diet after eight weeks. The researchers estimate that over a full year, people following the MPF diet would lose 9-13% of their weight versus 4-5% on the UPF diet. The MPF diet also led to more fat mass loss, fewer cravings, and lower triglycerides.",
+    "summary": "A controlled trial showed people lost twice as much weight on minimally processed foods versus ultraprocessed alternatives with identical nutritional content. After eight weeks, participants lost 2% body weight on whole foods compared to 1% on processed foods. The study suggests food processing itself, beyond nutrition content, significantly impacts weight loss and health outcomes including fat loss, cravings, and cardiovascular markers.",
+    "questions": [
+      "What specific differences existed between the minimally processed and ultraprocessed diets?",
+      "Why might ultraprocessed foods lead to less weight loss despite similar nutrition?",
+      "What other health markers improved on the minimally processed diet?",
+      "How do these findings challenge current nutrition guidelines focused on macronutrients?"
+    ]
+  },
+  {
+    "date": "2025-08-06",
+    "topic": "Microsoft teases the future of Windows: 'The computer will be able to see what we see, hear what we hear, and we can talk to it'",
+    "URL": "https://www.techradar.com/computing/windows/microsoft-teases-the-future-of-windows-the-computer-will-be-able-to-see-what-we-see-hear-what-we-hear-and-we-can-talk-to-it",
+    "source": "Microsoft's Corporate VP for OS Security, David Weston, shared his vision for Windows in 2030 in a YouTube video. He envisions a multimodal future where users will do less with their eyes and more talking to computers. The computer will be able to see what users see, hear what they hear, and respond to sophisticated voice commands. Weston believes this will be a much more natural form of communication. He added that 'the world of mousing around and typing will feel as alien as it does to Gen-Z to use MS-DOS.' The vision includes AI agents that can perform complex tasks through natural conversation.",
+    "summary": "Microsoft executive David Weston outlined a 2030 vision for Windows featuring multimodal AI interaction where voice commands replace traditional mouse and keyboard input. The future OS will see and hear what users experience, enabling natural conversation-based computing. Weston suggests current input methods will seem as outdated as MS-DOS feels to younger generations today, indicating a fundamental shift toward AI-powered, voice-first computing interfaces.",
+    "questions": [
+      "How will multimodal AI interfaces change the way we interact with computers?",
+      "What technical capabilities must be developed for computers to 'see' and 'hear' like humans?",
+      "How might this vision impact accessibility for users with different abilities?",
+      "What privacy implications arise from computers that can see and hear everything?"
+    ]
+  },
+  {
+    "date": "2025-08-06",
+    "topic": "Google is rolling out a fix for Pixel back button issues",
+    "URL": "https://www.theverge.com/news/719556/google-pixel-back-button-navigation-gesture-issues-android-16",
+    "source": "Google's August Pixel update includes a fix for Android's three-button navigation and gesture navigation systems becoming unresponsive. The issues appeared shortly after the official release of Android 16 in June, with users reporting navigation buttons being completely unresponsive or having delays of over 30 seconds. Some users had to press the back button multiple times to register input, while swipe gestures also occasionally stopped working. Google's patch notes only vaguely mention the issues would happen under 'certain conditions.' The update also fixes scheduled dark theme issues and includes a security fix for a high severity remote code execution vulnerability.",
+    "summary": "Google released an August update fixing navigation problems that plagued Pixel devices since Android 16's launch. Users experienced unresponsive back buttons, gesture navigation failures, and delays exceeding 30 seconds. The update addresses these issues along with dark theme scheduling problems and a critical security vulnerability. The fix rolls out to Pixel 6 devices and newer models.",
+    "questions": [
+      "What specific navigation issues did Pixel users experience after Android 16?",
+      "How did the navigation problems affect both button and gesture-based systems?",
+      "What other fixes are included in Google's August Pixel update?",
+      "Why might Google have been vague about the conditions causing these issues?"
+    ]
+  },
+  {
+    "date": "2025-08-06",
+    "topic": "Video Games Weekly: Censorship and stolen puritanical valor",
+    "URL": "https://www.engadget.com/gaming/video-games-weekly-censorship-and-stolen-puritanical-valor-234220878.html",
+    "source": "Gaming industry analysis reveals that while a conservative Australian activist group claimed responsibility for Steam and Itch.io's mass removal of adult games, their actual influence appears minimal. Payment processors like Visa, Mastercard, and PayPal drove the censorship decisions following new rules added by Steam on July 16 and Itch.io on July 24. The article argues this represents 'stolen puritanical valor' where the organization falsely positioned itself as central to widespread censorship affecting thousands of games.",
+    "summary": "Gaming industry analysis reveals conservative group's false claims of responsibility for Steam/Itch.io adult game censorship. Payment processors actually drove removal of thousands of titles, not activist campaigns.",
+    "questions": [
+      "How did payment processors influence gaming platform policies regarding adult content?",
+      "What evidence contradicts the activist group's claims of responsibility?",
+      "How many games were affected by the Steam and Itch.io policy changes?",
+      "What does 'stolen puritanical valor' mean in this gaming industry context?"
+    ]
+  },
+  {
+    "date": "25/08/05",
+    "URL": "https://www.engadget.com/ai/elevenlabs-launches-its-own-royalty-free-ai-music-service-183033630.html",
+    "topic": "ElevenLabs launches its own royalty-free AI music service",
+    "summary": "AI startup ElevenLabs has launched Eleven Music, a new prompt-based AI music generation service that creates royalty-free music for commercial use. The service can generate songs with vocals and lyrics in just a few minutes based on natural language prompts. ElevenLabs has been quietly testing the platform with 20 customers who have used it for films, TV shows, video games, and apps. The company has secured deals with digital rights agencies Merlin Network and Kobalt Music Group for training data, with CEO Mati Staniszewski aiming to bring major labels on board. ElevenLabs emphasizes that 'the model is strictly created on data that we have access to,' positioning itself advantageously compared to competitors like Suno and Udio, which face lawsuits for alleged copyright infringement. The company is primarily known for voice-generation technology and has created tools used for celebrity deepfakes and AI news reading services.",
+    "questions": [
+      "How will ElevenLabs' licensing approach with music agencies affect the quality and diversity of generated music?",
+      "What impact will AI-generated music have on human musicians and the traditional music industry?",
+      "How can consumers distinguish between AI-generated and human-created music content?",
+      "What are the long-term implications of royalty-free AI music for content creators and media production?",
+      "How will the music industry regulate and respond to the proliferation of AI music generation services?"
+    ]
   }
 ]

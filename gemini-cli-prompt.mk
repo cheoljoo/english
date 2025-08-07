@@ -27,6 +27,7 @@ all:
 			echo "Command: docker run -it --rm -v ./:/usr/src/app -e GEMINI_API_KEY=*** gemini-app gemini -y -p \"...\""; \
 			CURRENT_DATE="$$(date '+%Y-%m-%d (%A)')"; \
 			PROMPT_WITH_DATE="Current date: $$CURRENT_DATE\n\n$$(cat $(FILE))"; \
+			echo "Prompt: $$PROMPT_WITH_DATE"; \
 			if echo "$$PROMPT_WITH_DATE" | docker run -i --rm -v ./:/usr/src/app -e GEMINI_API_KEY=AIzaSyB647F_VzNA0tT8kacPMLTbL62EWEChmyw gemini-app gemini -y -p -; then \
 				echo "✅ Gemini CLI executed successfully"; \
 			else \
