@@ -191,6 +191,20 @@ Examples:
         print("DRY RUN MODE - No files will be modified")
         print()
     
+    # Check if input files exist
+    missing_files = []
+    if not os.path.exists(args.database_in):
+        missing_files.append(args.database_in)
+    if not os.path.exists(args.contents_in):
+        missing_files.append(args.contents_in)
+    
+    if missing_files:
+        print(f"Error: Required input files not found:")
+        for file in missing_files:
+            print(f"  - {file}")
+        print("\nPlease run the data collection process first.")
+        sys.exit(4)
+    
     total_added = 0
     
     try:
