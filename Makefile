@@ -6,20 +6,25 @@ INPUT_FILE = contents.json
 OUTPUT_DIR = output
 SCRIPT = json_to_html.py
 
-# Default target
+# Default target - Complete workflow
 .PHONY: all
-all: html
+all: clean collect prompt merge recent
 
 # Help target
 .PHONY: help
 help:
 	@echo "Available targets:"
 	@echo "  help         - Show this help message"
-	@echo "  html         - Convert all articles to HTML (default)"
+	@echo "  all          - Complete workflow: clean → collect → prompt → merge → html"
+	@echo "  collect      - Run news_collector.py to gather RSS feeds"
+	@echo "  prompt       - Run Gemini CLI with contents.prompt"
+	@echo "  merge        - Run merge.py to combine today's data with main files"
+	@echo "  html         - Convert all articles to HTML"
 	@echo "  recent       - Convert recent 10 articles to HTML"
 	@echo "  latest       - Convert latest 5 articles to HTML"
-	@echo "  clean        - Remove generated HTML files"
+	@echo "  clean        - Remove generated files"
 	@echo "  test         - Test the conversion script"
+	@echo "  serve        - Serve the HTML file on port 8000"
 	@echo ""
 	@echo "Variables:"
 	@echo "  INPUT_FILE   - Input JSON file (default: contents.json)"
@@ -27,6 +32,8 @@ help:
 	@echo "  SIZE         - Number of articles to include"
 	@echo ""
 	@echo "Examples:"
+	@echo "  make          - Run complete workflow"
+	@echo "  make collect  - Only collect RSS feeds"
 	@echo "  make html"
 	@echo "  make recent"
 	@echo "  make latest"
@@ -37,21 +44,38 @@ help:
 $(OUTPUT_DIR):
 	mkdir -p $(OUTPUT_DIR)
 
+# Collect RSS feeds using news_collector.py
+.PHONY: collect
+collect:
+	@echo "📰 Collecting RSS feeds..."
+	uv run python news_collector.py
+	@echo "✅ RSS feeds collected successfully"
+
+# Merge today's data with main database and contents files
+.PHONY: merge
+merge:
+	@echo "🔄 Merging today's data with main files..."
+	uv run python merge.py
+	@echo "✅ Data merged successfully"
+
 # Convert all articles to HTML
 .PHONY: html
 html: $(OUTPUT_DIR)
+	@echo "uv run python $(SCRIPT) --input $(INPUT_FILE) --output $(OUTPUT_DIR)/articles.html"
 	uv run python $(SCRIPT) --input $(INPUT_FILE) --output $(OUTPUT_DIR)/articles.html
 	@echo "✅ All articles converted to $(OUTPUT_DIR)/articles.html"
 
 # Convert recent articles (default 10)
 .PHONY: recent
 recent: $(OUTPUT_DIR)
+	@echo "uv run python $(SCRIPT) --input $(INPUT_FILE) --output $(OUTPUT_DIR)/articles.html --size $(or $(SIZE),10)"
 	uv run python $(SCRIPT) --input $(INPUT_FILE) --output $(OUTPUT_DIR)/articles.html --size $(or $(SIZE),10)
 	@echo "✅ Recent $(or $(SIZE),10) articles converted to $(OUTPUT_DIR)/articles.html"
 
 # Convert latest articles (default 5)
 .PHONY: latest
 latest: $(OUTPUT_DIR)
+	@echo "uv run python $(SCRIPT) --input $(INPUT_FILE) --output $(OUTPUT_DIR)/articles.html --size $(or $(SIZE),5)"
 	uv run python $(SCRIPT) --input $(INPUT_FILE) --output $(OUTPUT_DIR)/articles.html --size $(or $(SIZE),5)
 	@echo "✅ Latest $(or $(SIZE),5) articles converted to $(OUTPUT_DIR)/articles.html"
 
@@ -74,6 +98,12 @@ test:
 	@echo ""
 	@echo "✅ Script is working correctly"
 
+# Serve the HTML file
+.PHONY: serve
+serve:
+	@echo "🚀 Starting server on port 8000..."
+	uv run python server.py
+
 # Validate input JSON file
 .PHONY: validate
 validate:
@@ -85,7 +115,9 @@ validate:
 clean:
 	rm -rf $(OUTPUT_DIR)
 	rm -f *.html
-	@echo "🧹 Cleaned up generated HTML files"
+	rm -f contents-today.temp.json database-today.csv contents-today.json
+	rm -f contents.prompt.temp*
+	@echo "🧹 Cleaned up all generated files"
 
 # Open the generated HTML in browser (if available)
 .PHONY: open
@@ -162,8 +194,8 @@ tree:
 # Run gemini CLI with prompt file
 .PHONY: prompt
 prompt:
-	@echo "🚀 Running Gemini CLI with contents.prompt..."
-	make -f gemini-cli-prompt.mk FILE="contents.prompt"
+	@echo "🚀 Running Gemini CLI with summary.prompt..."
+	make -f gemini-cli-prompt.mk FILE="summary.prompt"
 	@echo "✅ Gemini CLI execution completed"
 
 # Test Gemini API connectivity and quota

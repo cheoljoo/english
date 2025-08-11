@@ -1,0 +1,8 @@
+contents-today.temp.json 파일을 읽어, 다음에 rule에 따라  json 형식으로 만들어서 모두 영어로 contents-today.json을 생성시켜주세요.
+url은 아래의 값으로 반영시켜주세요. url에 접속을 하지 마세요.
+    - date : 위의 날짜
+    - URL : url
+    - topic : 기사 제목  (topic이 없으면 기사에서 찾아서 넣어달라.)
+    - source : URL있는 기사의 모든 Text 부분을 적어주세요. (광고는 제거)
+    - summary : 기사 내용을 summary해 달라. 최대 400자 이내로 summary해 달라. 
+    - questions : 최대 3개의 question을 만들어 달라.
