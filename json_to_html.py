@@ -236,8 +236,36 @@ def get_css_styles():
 def generate_html(articles_data, size=None):
     """Generate HTML content from articles data."""
     
+    def parse_date_for_sorting(date_str):
+        """Parse date string for sorting purposes."""
+        if not date_str or date_str == 'No Date':
+            return datetime.min
+        
+        # Try different date formats
+        formats = [
+            '%Y-%m-%d',     # 2025-08-12
+            '%Y/%m/%d',     # 2025/08/12
+            '%y/%m/%d',     # 25/08/12
+            '%m/%d/%y',     # 08/12/25
+            '%d/%m/%y',     # 12/08/25
+        ]
+        
+        for fmt in formats:
+            try:
+                return datetime.strptime(date_str, fmt)
+            except ValueError:
+                continue
+        
+        # If no format matches, try to extract just the date part
+        try:
+            # Handle cases like "2025-08-12 (Monday)"
+            date_part = date_str.split()[0]
+            return datetime.strptime(date_part, '%Y-%m-%d')
+        except:
+            return datetime.min
+    
     # Sort articles by date (newest first)
-    articles = sorted(articles_data, key=lambda x: x.get('date', ''), reverse=True)
+    articles = sorted(articles_data, key=lambda x: parse_date_for_sorting(x.get('date', '')), reverse=True)
     
     # Limit articles if size is specified
     if size is not None and size > 0:
@@ -273,13 +301,32 @@ def generate_html(articles_data, size=None):
         try:
             if date and date != 'No Date':
                 # Try to parse different date formats
-                for fmt in ['%Y-%m-%d', '%y/%m/%d', '%Y/%m/%d']:
+                formats = [
+                    '%Y-%m-%d',     # 2025-08-12
+                    '%Y/%m/%d',     # 2025/08/12
+                    '%y/%m/%d',     # 25/08/12
+                    '%m/%d/%y',     # 08/12/25
+                    '%d/%m/%y',     # 12/08/25
+                ]
+                
+                parsed_date = None
+                for fmt in formats:
                     try:
                         parsed_date = datetime.strptime(date, fmt)
-                        formatted_date = parsed_date.strftime('%Y년 %m월 %d일')
                         break
                     except ValueError:
                         continue
+                
+                # Handle cases like "2025-08-12 (Monday)"
+                if not parsed_date:
+                    try:
+                        date_part = date.split()[0]
+                        parsed_date = datetime.strptime(date_part, '%Y-%m-%d')
+                    except:
+                        pass
+                
+                if parsed_date:
+                    formatted_date = parsed_date.strftime('%Y년 %m월 %d일')
                 else:
                     formatted_date = date
             else:
