@@ -10,17 +10,17 @@ FILE ?=
 .DEFAULT_GOAL := all
 
 all:
-	@echo "Checking if gemini-app image exists..."
-	@if ! docker image inspect gemini-app >/dev/null 2>&1; then \
+	echo "Checking if gemini-app image exists..."
+	if ! docker image inspect gemini-app >/dev/null 2>&1; then \
 		echo "gemini-app image not found. Building..."; \
 		docker build --build-arg USER_ID=$(USER_ID) --build-arg GROUP_ID=$(GROUP_ID) -t gemini-app .; \
 	else \
 		echo "gemini-app image found, proceeding..."; \
 	fi
-	@echo "Executing Gemini CLI with FILE=$(FILE)..."
-	@echo "FILE variable content: '$(FILE)'"
-	@echo "Current date: $$(date '+%Y-%m-%d (%A)')"
-	@if [ -n "$(FILE)" ]; then \
+	echo "Executing Gemini CLI with FILE=$(FILE)..."
+	echo "FILE variable content: '$(FILE)'"
+	echo "Current date: $$(date '+%Y-%m-%d (%A)')"
+	if [ -n "$(FILE)" ]; then \
 		   echo "FILE is set, reading from file: $(FILE)"; \
 		   if [ ! -f gemini.key ]; then \
 			   echo "gemini.key 파일이 없습니다. vi로 파일을 만드세요."; \
@@ -31,8 +31,8 @@ all:
 			CURRENT_DATE="$$(date '+%Y-%m-%d (%A)')"; \
 			echo "Adding current date: $$CURRENT_DATE"; \
 			FILE_CONTENT="Current date: $$CURRENT_DATE\n\n$$(cat "$(FILE)")"; \
-			echo "Command: docker run -it --rm -v ./:/usr/src/app -e GEMINI_API_KEY=*** gemini-app gemini chat -y -p \"[FILE_CONTENT]\""; \
-			if docker run -it --rm -v ./:/usr/src/app -e GEMINI_API_KEY="$(shell cat gemini.key)" gemini-app gemini chat -y -p "$$FILE_CONTENT"; then \
+			echo "Command 1: docker run -it --rm -v ./:/usr/src/app -e GEMINI_API_KEY=*** gemini-app gemini chat -y -p \"[FILE_CONTENT]\""; \
+			if docker run -it --rm -v ./:/usr/src/app -e GEMINI_API_KEY="$(shell cat gemini.key)" gemini-app gemini -y -p "$$FILE_CONTENT"; then \
 				echo "✅ Gemini CLI executed successfully"; \
 			else \
 				echo "❌ Gemini CLI failed with exit code: $$?"; \
@@ -51,10 +51,10 @@ all:
 			   vi gemini.key; \
 		   fi; \
 		   echo "FILE is not set, using PROMPT variable..."; \
-		echo "Command: docker run -it --rm -v ./:/usr/src/app -e GEMINI_API_KEY=*** gemini-app gemini chat -y"; \
+		echo "Command 2: docker run -it --rm -v ./:/usr/src/app -e GEMINI_API_KEY=*** gemini-app gemini chat -y"; \
 		CURRENT_DATE="$$(date '+%Y-%m-%d (%A)')"; \
 		PROMPT_WITH_DATE="Current date: $$CURRENT_DATE\n\n$(PROMPT)"; \
-		if echo "$$PROMPT_WITH_DATE" | docker run -i --rm -v ./:/usr/src/app -e GEMINI_API_KEY="$(shell cat gemini.key)" gemini-app gemini chat -y --prompt "$PROMPT"; then \
+		if echo "$$PROMPT_WITH_DATE" | docker run -i --rm -v ./:/usr/src/app -e GEMINI_API_KEY="$(shell cat gemini.key)" gemini-app gemini -y --prompt "$PROMPT"; then \
 			echo "✅ Gemini CLI executed successfully"; \
 		else \
 			echo "❌ Gemini CLI failed with exit code: $$?"; \
