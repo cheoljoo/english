@@ -31,8 +31,8 @@ all:
 			CURRENT_DATE="$$(date '+%Y-%m-%d (%A)')"; \
 			echo "Adding current date: $$CURRENT_DATE"; \
 			FILE_CONTENT="Current date: $$CURRENT_DATE\n\n$$(cat "$(FILE)")"; \
-			echo "Command 1: docker run -it --rm -v ./:/usr/src/app -e GEMINI_API_KEY=*** gemini-app gemini chat -p \"[FILE_CONTENT]\""; \
-			if docker run -it --rm -v ./:/usr/src/app -e GEMINI_API_KEY="$(shell cat gemini.key)" gemini-app gemini -p "$$FILE_CONTENT"; then \
+			echo "Command 1: docker run -it --rm -v ./:/usr/src/app -e GEMINI_API_KEY=*** gemini-app gemini chat --model gemini-2.5-flash -p \"[FILE_CONTENT]\""; \
+			if docker run -it --rm -v ./:/usr/src/app -e GEMINI_API_KEY="$(shell cat gemini.key)" gemini-app gemini --model gemini-2.5-flash -p "$$FILE_CONTENT"; then \
 				echo "✅ Gemini CLI executed successfully"; \
 			else \
 				echo "❌ Gemini CLI failed with exit code: $$?"; \
