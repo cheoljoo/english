@@ -294,6 +294,7 @@ def generate_html(articles_data, size=None):
         title = escape(article.get('topic', 'No Title'))
         date = escape(article.get('date', 'No Date'))
         source = escape(article.get('source', 'No Source'))
+        url = escape(article.get('URL', 'No Link'))
         summary = escape(article.get('summary', 'No Summary'))
         questions = article.get('questions', [])
         
@@ -348,8 +349,8 @@ def generate_html(articles_data, size=None):
             </div>
             
             <div class="section">
-                <h3 class="section-title">전체 내용</h3>
-                <div class="source-content">{source.replace(chr(10), '<br>')}</div>
+                <h3 class="section-title">URL</h3>
+                <div class="source-content">{url}</div>
             </div>
             
             <div class="section">
