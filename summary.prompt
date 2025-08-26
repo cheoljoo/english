@@ -1,6 +1,7 @@
+please change the following order into english.
 contents-today.temp.json 파일을 읽어, 다음에 rule에 따라  json 형식으로 만들어서 모두 영어로 contents-today.json을 생성시켜주세요.
 url은 아래의 값으로 반영시켜주세요. url에 접속을 하지 마세요.
-date,URL,topic,source는 contents-today.temp.json에 포함되어져있고, summary와 questions를 만들어서 추가해주세요.
+date,URL,topic,source는 contents-today.temp.json에 포함되어져있고, source는가 full context로 이 source의 내용을 요약한 summary와 full context관련 questions를 만들어서 추가해주세요.
     - date : 위의 날짜
     - URL : url
     - topic : 기사 제목  (topic이 없으면 기사에서 찾아서 넣어달라.)
