@@ -349,8 +349,7 @@ def generate_html(articles_data, size=None):
             </div>
             
             <div class="section">
-                <h3 class="section-title">URL</h3>
-                <div class="source-content">{url}</div>
+                <h3 class="section-title"><a href="{url}">URL</a></h3>
             </div>
             
             <div class="section">
