@@ -65,6 +65,9 @@ for item in data:
     if not topic:
         topic = infer_topic(source_text)
 
+    if not source_text or len(source_text) < 50: # Skip if source is too short or missing
+        continue
+
     new_item = {
         "date": "2025-08-28",
         "URL": item.get('URL'),

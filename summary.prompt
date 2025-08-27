@@ -3,7 +3,7 @@
   Please read the contents-today.temp.json file and create a new contents-today.json file in JSON format based on the following rules. All content in the output file must be in English.
 
   The fields date, URL, topic, and source are already present in contents-today.temp.json. The source field contains the full context of an article. You need to process this source to
-  generate and add two new fields: summary and questions.
+  generate and add two new fields: summary and questions. You should skip if this source field is not existed or source field does not have enough contents to make summary and questions.
 
   Do not access the URL directly; use the content provided in the source field.
 
