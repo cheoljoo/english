@@ -66,7 +66,7 @@ for item in data:
         topic = infer_topic(source_text)
 
     new_item = {
-        "date": "2025-08-27",
+        "date": "2025-08-28",
         "URL": item.get('URL'),
         "topic": topic,
         "source": source_text,
