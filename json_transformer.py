@@ -19,39 +19,43 @@ def generate_questions(text):
     questions = []
     sentences = [s.strip() for s in re.split(r'[.!?]', text) if s.strip()]
 
-    # Question 1: Main subject
+    # Question 1: Main subject/idea
     if sentences:
-        questions.append("What is the main subject of this article?")
+        questions.append("What is the primary focus or main idea of this article?")
 
     # Question 2: Key entities (people, organizations, places)
-    # Look for capitalized words that are likely proper nouns
-    entities = set()
+    # Look for capitalized words that are likely proper nouns, appearing more than once
+    entity_candidates = {}
     for sentence in sentences:
-        words = re.findall(r'\b[A-Z][a-z]+\b', sentence) # Simple regex for capitalized words
-        for word in words:
+        # Find sequences of capitalized words
+        matches = re.findall(r'\b[A-Z][a-z]*(?:\s[A-Z][a-z]*)*\b', sentence)
+        for match in matches:
             # Filter out common words that might start a sentence but aren't entities
-            if word.lower() not in ["the", "a", "an", "in", "on", "at", "for", "with", "by", "of", "to", "and", "but", "or", "is", "are", "was", "were", "it", "he", "she", "they", "we", "you"]:
-                entities.add(word)
-    
-    if len(entities) > 0 and len(questions) < 3:
-        # Take up to 2 distinct entities to form a question
-        entity_list = list(entities)[:2]
-        if len(entity_list) == 1:
-            questions.append(f"Who or what is {entity_list[0]} and what is their role?")
-        elif len(entity_list) > 1:
-            questions.append(f"What is the significance of {entity_list[0]} and {entity_list[1]} in the article?")
+            if match.lower() not in ["the", "a", "an", "in", "on", "at", "for", "with", "by", "of", "to", "and", "but", "or", "is", "are", "was", "were", "it", "he", "she", "they", "we", "you", "this", "that", "these", "those"]:
+                entity_candidates[match] = entity_candidates.get(match, 0) + 1
 
-    # Question 3: Key action or event
+    # Select entities that appear more than once or are significant
+    key_entities = [entity for entity, count in entity_candidates.items() if count > 1 or (len(entity.split()) > 1 and count > 0)]
+    key_entities = sorted(key_entities, key=lambda x: entity_candidates[x], reverse=True)[:2] # Take top 2 by frequency
+
+    if len(key_entities) > 0 and len(questions) < 3:
+        if len(key_entities) == 1:
+            questions.append(f"Who or what is {key_entities[0]} and what is their role or significance in the article?")
+        elif len(key_entities) > 1:
+            questions.append(f"What is the relationship or interaction between {key_entities[0]} and {key_entities[1]} as described in the article?")
+
+    # Question 3: Key action, event, or outcome
     if len(questions) < 3 and sentences:
+        action_keywords = r'\b(announced|said|reported|developed|launched|created|began|started|found|discovered|explained|revealed|impact|consequence|result|outcome)\b'
         action_found = False
-        for i in range(min(len(sentences), 3)): # Check first 3 sentences
+        for i in range(min(len(sentences), 5)): # Check first 5 sentences for action keywords
             sentence = sentences[i]
-            if re.search(r'\b(announced|said|reported|developed|launched|created|began|started|found|discovered|explained|revealed)\b', sentence, re.IGNORECASE):
-                questions.append(f"What key event or action is described in the article?")
+            if re.search(action_keywords, sentence, re.IGNORECASE):
+                questions.append(f"What significant event, action, or outcome is discussed in the article?")
                 action_found = True
                 break
         if not action_found:
-            questions.append("What is the primary outcome or message conveyed?")
+            questions.append("What are the main implications or consequences discussed in the article?")
 
     return questions[:3]
 
@@ -76,15 +80,18 @@ output_data = []
 for item in data:
     source_text = item.get('source', '')
     topic = item.get('topic')
+    url = item.get('URL')
+
+    # Skip if source is too short or missing
+    if not source_text or len(source_text) < 100: # Increased minimum length for better summarization/question generation
+        continue
+
     if not topic:
         topic = infer_topic(source_text)
 
-    if not source_text or len(source_text) < 50: # Skip if source is too short or missing
-        continue
-
     new_item = {
         "date": "2025-08-28",
-        "URL": item.get('URL'),
+        "URL": url,
         "topic": topic,
         "source": source_text,
         "summary": summarize_text(source_text),
