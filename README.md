@@ -124,6 +124,52 @@ make latest SIZE=3
 make serve
 ```
 
+## 📊 시스템 워크플로우
+
+```plantuml
+@startuml English Tech News Automation Workflow
+start
+:User executes 'make' command;
+
+:Clean temporary files
+(remove old *.html, contents-today.*, database-today.csv);
+
+:Collect RSS feeds
+(news_collector.py);
+note right
+  - Fetch latest articles from 6 tech sites
+  - Generate database-today.csv
+  - Generate contents-today.temp.json
+end note
+
+:AI Processing with Gemini
+(Gemini CLI + contents.prompt);
+note right
+  - Analyze articles with AI
+  - Generate summaries and questions
+  - Create contents-today.json
+end note
+
+:Merge data
+(merge.py);
+note right
+  - Merge database-today.csv → database.csv
+  - Merge contents-today.json → contents.json
+end note
+
+:Generate HTML
+(json_to_html.py);
+note right
+  - Convert contents.json to HTML
+  - Create output/articles.html
+end note
+
+:Workflow complete
+(display success message);
+end
+@enduml
+```
+
 ## 🎯 학습 워크플로우
 
 1. **매일 실행**: `make` 명령으로 최신 뉴스 수집
