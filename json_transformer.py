@@ -1,5 +1,5 @@
-
 import json
+import re
 
 def summarize_text(text):
     # Summarization by taking sentences up to a maximum length.
@@ -17,30 +17,44 @@ def summarize_text(text):
 
 def generate_questions(text):
     questions = []
-    sentences = [s.strip() for s in text.split('.') if s.strip()]
+    sentences = [s.strip() for s in re.split(r'[.!?]', text) if s.strip()]
 
-    # Try to generate questions based on common patterns
+    # Question 1: Main subject
     if sentences:
-        # Question 1: What is the article about? (General topic)
         questions.append("What is the main subject of this article?")
 
-        # Question 2: Who or what is involved? (Entities)
-        # Look for capitalized words that might be names or key terms
-        entities = set()
-        for sentence in sentences:
-            words = sentence.split()
-            for word in words:
-                if word and word[0].isupper() and len(word) > 1 and word.lower() not in ["the", "a", "an", "in", "on", "at", "for", "with", "by", "of", "to", "and", "but", "or", "is", "are", "was", "were"]:
-                    entities.add(word.strip(".,;:'\""))
-        if entities:
-            questions.append(f"Who or what are the key entities mentioned?")
-        
-        # Question 3: What happened or what is the main point? (Action/Outcome)
-        # Look for verbs or action-oriented phrases
-        if len(questions) < 3:
+    # Question 2: Key entities (people, organizations, places)
+    # Look for capitalized words that are likely proper nouns
+    entities = set()
+    for sentence in sentences:
+        words = re.findall(r'\b[A-Z][a-z]+\b', sentence) # Simple regex for capitalized words
+        for word in words:
+            # Filter out common words that might start a sentence but aren't entities
+            if word.lower() not in ["the", "a", "an", "in", "on", "at", "for", "with", "by", "of", "to", "and", "but", "or", "is", "are", "was", "were", "it", "he", "she", "they", "we", "you"]:
+                entities.add(word)
+    
+    if len(entities) > 0 and len(questions) < 3:
+        # Take up to 2 distinct entities to form a question
+        entity_list = list(entities)[:2]
+        if len(entity_list) == 1:
+            questions.append(f"Who or what is {entity_list[0]} and what is their role?")
+        elif len(entity_list) > 1:
+            questions.append(f"What is the significance of {entity_list[0]} and {entity_list[1]} in the article?")
+
+    # Question 3: Key action or event
+    if len(questions) < 3 and sentences:
+        action_found = False
+        for i in range(min(len(sentences), 3)): # Check first 3 sentences
+            sentence = sentences[i]
+            if re.search(r'\b(announced|said|reported|developed|launched|created|began|started|found|discovered|explained|revealed)\b', sentence, re.IGNORECASE):
+                questions.append(f"What key event or action is described in the article?")
+                action_found = True
+                break
+        if not action_found:
             questions.append("What is the primary outcome or message conveyed?")
 
     return questions[:3]
+
 
 def infer_topic(source_text):
     lines = [line.strip() for line in source_text.split('\n') if line.strip()]
@@ -80,4 +94,3 @@ for item in data:
 
 with open('/usr/src/app/contents-today.json', 'w') as f:
     json.dump(output_data, f, indent=4, ensure_ascii=False)
-
