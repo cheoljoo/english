@@ -1,10 +1,17 @@
-please change the following order into english.
-contents-today.temp.json 파일을 읽어, 다음에 rule에 따라  json 형식으로 만들어서 모두 영어로 contents-today.json을 생성시켜주세요.
-url은 아래의 값으로 반영시켜주세요. url에 접속을 하지 마세요.
-date,URL,topic,source는 contents-today.temp.json에 포함되어져있고, source는가 full context로 이 source의 내용을 요약한 summary와 full context관련 questions를 만들어서 추가해주세요.
-    - date : 위의 날짜
-    - URL : url
-    - topic : 기사 제목  (topic이 없으면 기사에서 찾아서 넣어달라.)
-    - source : URL있는 기사의 모든 Text 부분을 적어주세요. (광고는 제거)
-    - summary : 기사 내용을 summary해 달라. 최대 2000자 이내로 summary해 달라.  (기사에 충실하라)
-    - questions : 최대 3개의 question을 만들어 달라.
+  The most important task is to read contents-today.temp.json and generate contents-today.json.
+
+  Please read the contents-today.temp.json file and create a new contents-today.json file in JSON format based on the following rules. All content in the output file must be in English.
+
+  The fields date, URL, topic, and source are already present in contents-today.temp.json. The source field contains the full context of an article. You need to process this source to
+  generate and add two new fields: summary and questions. You should skip if this source field is not existed or source field does not have enough contents to make summary and questions.
+
+  Do not access the URL directly; use the content provided in the source field.
+
+  Here are the rules for each field in the final contents-today.json:
+   - date: Use today's date.
+   - URL: The URL from the input file.
+   - topic: The title of the article. If the topic is missing from the input, extract it from the source text.
+   - source: The full text of the article from the URL (with ads removed), as provided in the input file.
+   - summary: A summary of the article's content, faithful to the original text, with a maximum length of 2000 characters.
+   - questions: A maximum of three questions related to the article's content.
+
