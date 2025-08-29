@@ -9,6 +9,7 @@ SCRIPT = json_to_html.py
 # Default target - Complete workflow
 .PHONY: all
 all: clean collect prompt merge recent
+cron: clean collect prompt-cron merge recent
 
 # Help target
 .PHONY: help
@@ -196,6 +197,10 @@ tree:
 prompt:
 	@echo "🚀 Running Gemini CLI with summary.prompt..."
 	make -f gemini-cli-prompt.mk FILE="summary.prompt"
+	@echo "✅ Gemini CLI execution completed"
+prompt-cron:
+	@echo "🚀 Running Gemini CLI with summary.prompt..."
+	make -f gemini-cli-prompt.mk cron FILE="summary.prompt"
 	@echo "✅ Gemini CLI execution completed"
 
 # Test Gemini API connectivity and quota

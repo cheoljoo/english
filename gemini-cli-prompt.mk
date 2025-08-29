@@ -66,6 +66,41 @@ all:
 		fi; \
 	fi
 
+cron:
+	@echo "[CRON] Checking if gemini-app image exists..."
+	if ! docker image inspect gemini-app >/dev/null 2>&1; then \
+		echo "[CRON] gemini-app image not found. Building..."; \
+		docker build --build-arg USER_ID=$(USER_ID) --build-arg GROUP_ID=$(GROUP_ID) -t gemini-app .; \
+	else \
+		echo "[CRON] gemini-app image found, proceeding..."; \
+	fi
+	@echo "[CRON] Executing Gemini CLI with FILE=$(FILE)..."
+	@echo "[CRON] FILE variable content: '$(FILE)'"
+	@echo "[CRON] Current date: $$(date '+%Y-%m-%d (%A)')"
+	if [ ! -f gemini.key ]; then \
+		echo "[CRON] gemini.key 파일이 없습니다. cron에서는 자동 생성하지 않습니다."; \
+		exit 1; \
+	fi; \
+	if [ -n "$(FILE)" ]; then \
+		echo "[CRON] FILE is set, reading from file: $(FILE)"; \
+		if [ -f "$(FILE)" ]; then \
+			CURRENT_DATE="$$(date '+%Y-%m-%d (%A)')"; \
+			FILE_CONTENT="Current date: $$CURRENT_DATE\n\n$$(cat "$(FILE)")"; \
+			echo "Adding current date: $$FILE_CONTENT"; \
+			echo "[CRON] docker run --rm -v ./:/usr/src/app -e GEMINI_API_KEY=*** gemini-app gemini chat --model gemini-2.5-flash -y -p [FILE_CONTENT]"; \
+			docker run --rm -v ./:/usr/src/app -e GEMINI_API_KEY="$(shell cat gemini.key)" gemini-app gemini --model gemini-2.5-flash -y -p "$$FILE_CONTENT"; \
+		else \
+			echo "[CRON] Error: File $(FILE) not found!"; \
+			exit 2; \
+		fi; \
+	else \
+		echo "[CRON] FILE is not set, using PROMPT variable..."; \
+		CURRENT_DATE="$$(date '+%Y-%m-%d (%A)')"; \
+		PROMPT_WITH_DATE="Current date: $$CURRENT_DATE\n\n$(PROMPT)"; \
+		echo "[CRON] docker run --rm -v ./:/usr/src/app -e GEMINI_API_KEY=*** gemini-app gemini chat -y"; \
+		echo "$$PROMPT_WITH_DATE" | docker run --rm -v ./:/usr/src/app -e GEMINI_API_KEY="$(shell cat gemini.key)" gemini-app gemini --model gemini-2.5-flash -y --prompt "$(PROMPT)"; \
+	fi
+
 # Check if gemini-app image exists, build if not
 check-image:
 	@if ! docker image inspect gemini-app >/dev/null 2>&1; then \

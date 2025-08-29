@@ -1,5 +1,6 @@
 import json
 import re
+from datetime import datetime
 
 def summarize_text(text):
     # Summarization by taking sentences up to a maximum length.
@@ -90,7 +91,7 @@ for item in data:
         topic = infer_topic(source_text)
 
     new_item = {
-        "date": "2025-08-28",
+        "date": datetime.now().strftime("%Y-%m-%d"),
         "URL": url,
         "topic": topic,
         "source": source_text,
