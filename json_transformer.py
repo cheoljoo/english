@@ -91,7 +91,7 @@ for item in data:
         topic = infer_topic(source_text)
 
     new_item = {
-        "date": "2025-09-22",
+        "date": "2025-10-02",
         "URL": url,
         "topic": topic,
         "source": source_text,
