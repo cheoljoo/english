@@ -61,44 +61,4 @@ def generate_questions(text):
     return questions[:3]
 
 
-def infer_topic(source_text):
-    lines = [line.strip() for line in source_text.split('\n') if line.strip()]
-    for line in lines:
-        # Heuristic to find a title-like line: not too long, starts with a capital letter
-        if 10 < len(line) < 100 and line[0].isupper() and not line.endswith('.'):
-            return line
-    # Fallback: take the first reasonable sentence
-    sentences = [s.strip() for s in source_text.split('.') if s.strip()]
-    if sentences:
-        return sentences[0]
-    return "No specific topic found"
 
-
-with open('/usr/src/app/contents-today.temp.json', 'r') as f:
-    data = json.load(f)
-
-output_data = []
-for item in data:
-    source_text = item.get('source', '')
-    topic = item.get('topic')
-    url = item.get('URL')
-
-    # Skip if source is too short or missing
-    if not source_text or len(source_text) < 100: # Increased minimum length for better summarization/question generation
-        continue
-
-    if not topic:
-        topic = infer_topic(source_text)
-
-    new_item = {
-        "date": "2025-10-02",
-        "URL": url,
-        "topic": topic,
-        "source": source_text,
-        "summary": summarize_text(source_text),
-        "questions": generate_questions(source_text)
-    }
-    output_data.append(new_item)
-
-with open('/usr/src/app/contents-today.json', 'w') as f:
-    json.dump(output_data, f, indent=4, ensure_ascii=False)
