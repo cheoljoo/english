@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y sudo python3 python3-pip python3-venv v
 RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 RUN pip install --upgrade pip
-RUN pip install pipx yfinance pandas openpyxl numpy seaborn matplotlib openai python-dotenv googletrans uv
+RUN pip install pipx yfinance pandas openpyxl numpy seaborn matplotlib openai python-dotenv googletrans uv google-generativeai
 
 # 현재 호스트의 사용자 ID와 그룹 ID를 환경 변수로 전달합니다.
 ARG USER_ID
